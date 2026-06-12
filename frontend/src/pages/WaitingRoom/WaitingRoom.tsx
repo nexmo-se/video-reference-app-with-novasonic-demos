@@ -1,9 +1,9 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { initSession } from '@vonage/client-sdk-video';
-import type { Publisher, Session, Subscriber } from '@vonage/client-sdk-video';
+import { initPublisher, initSession } from '@vonage/client-sdk-video';
+import type { Publisher, PublisherProperties, Session, Subscriber } from '@vonage/client-sdk-video';
 import { useNavigate } from 'react-router-dom';
 import PageLayout from '@ui/PageLayout';
 import Banner from '@components/Banner';
@@ -21,7 +21,8 @@ import useWaitingRoom from '@hooks/useWaitingRoom';
 import useUserContext from '@hooks/useUserContext';
 import { UserType } from '@Context/user';
 import { isValidRoomName } from '@common/assertions';
-import { setStorageItem, STORAGE_KEYS } from '@utils/storage';
+import mediaDevices$ from '@core/stores/devices';
+import { getStorageItem, setStorageItem, STORAGE_KEYS } from '@utils/storage';
 
 type PrecallSessionResponse = {
   sessionId?: string;
@@ -97,6 +98,7 @@ const WaitingRoom: FC = () => {
   const [messages, setMessages] = useState<PrecallMessage[]>([]);
   const precallSession = useRef<PrecallSessionResponse | null>(null);
   const activePrecallVonageSession = useRef<Session | null>(null);
+  const activePrecallPublisher = useRef<Publisher | null>(null);
   const activeSignalHandlers = useRef<{
     handleChatSignal: (event: SessionSignalEvent) => void;
     handleJoinSignal: (event: SessionSignalEvent) => void;
@@ -107,6 +109,8 @@ const WaitingRoom: FC = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const { setUser } = useUserContext();
+  const selectedAudioInputDeviceId = mediaDevices$.useDeviceId('audioinput');
+  const selectedVideoInputDeviceId = mediaDevices$.useDeviceId('videoinput');
   const latestUsernameRef = useRef('');
   const hasPrecallStartedRef = useRef(false);
   const activeAiSubscriberRef = useRef<Subscriber | null>(null);
@@ -351,7 +355,81 @@ const WaitingRoom: FC = () => {
     );
   };
 
-  const stopPrecallAssistant = async () => {
+  const createPrecallPublisher = useCallback(() => {
+    const isAudioEnabled = getStorageItem(STORAGE_KEYS.AUDIO_SOURCE_ENABLED) !== 'false';
+    const isVideoEnabled = getStorageItem(STORAGE_KEYS.VIDEO_SOURCE_ENABLED) !== 'false';
+
+    const precallPublisherOptions: PublisherProperties = {
+      insertDefaultUI: false,
+      publishAudio: isAudioEnabled,
+      publishVideo: isVideoEnabled,
+      audioSource: selectedAudioInputDeviceId,
+      videoSource: selectedVideoInputDeviceId,
+    };
+
+    const precallPublisher = initPublisher(
+      undefined,
+      precallPublisherOptions,
+      (error?: unknown) => {
+        if (error) {
+          console.error('Pre-call initPublisher error:', error);
+        }
+      }
+    );
+
+    activePrecallPublisher.current = precallPublisher;
+
+    return precallPublisher;
+  }, [selectedAudioInputDeviceId, selectedVideoInputDeviceId]);
+
+  const detachSignalHandlers = useCallback((session: Session) => {
+    const handlers = activeSignalHandlers.current;
+
+    if (!handlers) {
+      return;
+    }
+
+    session.off('signal:chat', handlers.handleChatSignal);
+    session.off('signal:join', handlers.handleJoinSignal);
+    session.off('signal', handlers.handleAnySignal);
+    session.off('streamCreated', handlers.handleStreamCreated);
+    activeSignalHandlers.current = null;
+  }, []);
+
+  const disconnectPrecallVonageSession = useCallback(() => {
+    const currentPrecallSession = activePrecallVonageSession.current;
+    const currentPrecallPublisher = activePrecallPublisher.current;
+
+    if (currentPrecallSession && currentPrecallPublisher) {
+      try {
+        currentPrecallSession.unpublish(currentPrecallPublisher);
+      } catch (error) {
+        console.warn('Error unpublishing pre-call publisher:', error);
+      }
+    }
+
+    if (currentPrecallSession) {
+      detachSignalHandlers(currentPrecallSession);
+      currentPrecallSession.disconnect();
+      activePrecallVonageSession.current = null;
+    }
+
+    if (currentPrecallPublisher) {
+      try {
+        currentPrecallPublisher.destroy();
+      } catch (error) {
+        console.warn('Error destroying pre-call publisher:', error);
+      }
+    }
+
+    activePrecallPublisher.current = null;
+
+    if (activeAiSubscriberRef.current) {
+      activeAiSubscriberRef.current = null;
+    }
+  }, [detachSignalHandlers]);
+
+  async function stopPrecallAssistant() {
     const sessionId = precallSession.current?.sessionId;
 
     disconnectPrecallVonageSession();
@@ -379,7 +457,7 @@ const WaitingRoom: FC = () => {
 
     precallSession.current = null;
     setHasPrecallStarted(false);
-  };
+  }
 
   const handleAutomaticJoin = async () => {
     try {
@@ -488,32 +566,6 @@ const WaitingRoom: FC = () => {
       }
     }
   };
-
-  const detachSignalHandlers = (session: Session) => {
-    const handlers = activeSignalHandlers.current;
-
-    if (!handlers) {
-      return;
-    }
-
-    session.off('signal:chat', handlers.handleChatSignal);
-    session.off('signal:join', handlers.handleJoinSignal);
-    session.off('signal', handlers.handleAnySignal);
-    session.off('streamCreated', handlers.handleStreamCreated);
-    activeSignalHandlers.current = null;
-  };
-
-  function disconnectPrecallVonageSession() {
-    if (activePrecallVonageSession.current) {
-      detachSignalHandlers(activePrecallVonageSession.current);
-      activePrecallVonageSession.current.disconnect();
-      activePrecallVonageSession.current = null;
-    }
-
-    if (activeAiSubscriberRef.current) {
-      activeAiSubscriberRef.current = null;
-    }
-  }
 
   const attachSignalHandlers = (session: Session) => {
     const handleChatSignal = (event: SessionSignalEvent) => {
@@ -717,12 +769,11 @@ const WaitingRoom: FC = () => {
   const connectAndPublishPrecallSession = async (
     sessionCredentials: Required<Pick<PrecallSessionResponse, 'sessionId' | 'token' | 'apiKey'>>
   ): Promise<string> => {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    const previewPublisher = publisher as Publisher | null;
-
-    if (!previewPublisher) {
-      throw new Error('No publisher available to publish.');
+    if (!publisher) {
+      throw new Error('No preview publisher available to mirror for pre-call publishing.');
     }
+
+    const precallPublisher = createPrecallPublisher();
 
     const vonageSession = initSession(sessionCredentials.apiKey, sessionCredentials.sessionId);
     activePrecallVonageSession.current = vonageSession;
@@ -739,14 +790,14 @@ const WaitingRoom: FC = () => {
         // Attach signal handlers immediately after connect, before publish
         attachSignalHandlers(vonageSession);
 
-        vonageSession.publish(previewPublisher, (publishError) => {
+        vonageSession.publish(precallPublisher, (publishError) => {
           if (publishError) {
             reject(publishError);
             return;
           }
 
           // Capture streamId immediately after publish succeeds
-          publishedStreamId = previewPublisher.stream?.streamId;
+          publishedStreamId = precallPublisher.stream?.streamId;
 
           // Small delay to ensure stream is fully initialized before resolving
           setTimeout(() => {
@@ -814,6 +865,7 @@ const WaitingRoom: FC = () => {
 
       await stopPrecallAssistant();
     } catch (error) {
+      disconnectPrecallVonageSession();
       console.error('Pre-call toggle error:', error);
     } finally {
       setIsPrecallLoading(false);
@@ -822,17 +874,9 @@ const WaitingRoom: FC = () => {
 
   useEffect(() => {
     return () => {
-      if (activePrecallVonageSession.current) {
-        detachSignalHandlers(activePrecallVonageSession.current);
-        activePrecallVonageSession.current.disconnect();
-        activePrecallVonageSession.current = null;
-      }
-
-      if (activeAiSubscriberRef.current) {
-        activeAiSubscriberRef.current = null;
-      }
+      disconnectPrecallVonageSession();
     };
-  }, []);
+  }, [disconnectPrecallVonageSession]);
 
   return (
     <backgroundEffectsDialog$.Provider>
