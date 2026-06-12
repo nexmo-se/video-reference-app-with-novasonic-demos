@@ -214,9 +214,9 @@
   "goodbye.default.header": "You have left the meeting",
   "goodbye.default.message": "Thank you for joining!",
   "landing.welcome.subtitle": "Power your business with video that transforms customer satisfaction.",
-  "landing.welcome.title.1": "Upgrade",
-  "landing.welcome.title.2": "video",
-  "landing.welcome.title.3": "communication",
+  "landing.welcome.title.1": "Welcome to",
+  "landing.welcome.title.2": "Trusted Bank's",
+  "landing.welcome.title.3": "video meeting app",
   "landing.primary.word": "video",
   "layout.tooltip.isPinningPresent": "Cannot switch layout while a participant is pinned",
   "layout.tooltip.isScreenSharePresent": "Cannot switch layout while screen share is active",
@@ -307,5 +307,10 @@
   "zoom.current": "Current zoom",
   "errorPage.title": "Something went wrong",
   "errorPage.description": "The application could not start. Please reload the page or contact support if the problem persists.",
-  "notification.dismiss": "Dismiss notification"
+  "notification.dismiss": "Dismiss notification",
+  "waitingRoom.aiIntake.title": "AI Banker Messages",
+  "waitingRoom.aiIntake.emptyState": "Messages from the AI Banker will appear here after you start pre-call.",
+  "waitingRoom.aiIntake.agentName": "AI Banker",
+  "waitingRoom.aiIntake.startButton": "Talk to AI Banker",
+  "waitingRoom.aiIntake.stopButton": "Finish conversation with AI Banker"
 }

@@ -214,9 +214,9 @@
   "goodbye.default.header": "Sie haben das Meeting verlassen",
   "goodbye.default.message": "Vielen Dank für Ihre Teilnahme!",
   "landing.welcome.subtitle": "Nutzen Sie Video, um Ihr Business zu transformieren und die Kundenzufriedenheit zu steigern.",
-  "landing.welcome.title.1": "Verbessern",
-  "landing.welcome.title.2": "Sie Ihre",
-  "landing.welcome.title.3": "Videokommunikation",
+  "landing.welcome.title.1": "Willkommen bei",
+  "landing.welcome.title.2": "der Videokonferenz-App von Trusted Bank",
+  "landing.welcome.title.3": "",
   "landing.primary.word": "Video",
   "layout.tooltip.isPinningPresent": "Layout kann nicht gewechselt werden, während ein Teilnehmer angeheftet ist",
   "layout.tooltip.isScreenSharePresent": "Layout kann nicht gewechselt werden, während Bildschirmfreigabe aktiv ist",
@@ -299,5 +299,10 @@
   "zoom.current": "Aktueller Zoom",
   "errorPage.title": "Etwas ist schiefgelaufen",
   "errorPage.description": "Die Anwendung konnte nicht gestartet werden. Bitte laden Sie die Seite neu oder wenden Sie sich an den Support, wenn das Problem weiterhin besteht.",
-  "notification.dismiss": "Benachrichtigung schließen"
+  "notification.dismiss": "Benachrichtigung schließen",
+  "waitingRoom.aiIntake.title": "KI-Banker Nachrichten",
+  "waitingRoom.aiIntake.emptyState": "Nachrichten des KI-Bankers werden hier angezeigt, nachdem Sie den Vorab-Anruf gestartet haben.",
+  "waitingRoom.aiIntake.agentName": "KI-Banker",
+  "waitingRoom.aiIntake.startButton": "Mit KI-Banker sprechen",
+  "waitingRoom.aiIntake.stopButton": "Gespräch mit KI-Banker beenden"
 }

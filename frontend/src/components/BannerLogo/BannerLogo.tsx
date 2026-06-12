@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
-import useIsTabletViewport from '@hooks/useIsTabletViewport';
+// import useIsTabletViewport from '@hooks/useIsTabletViewport';
 
 /**
  * BannerLogo Component
@@ -10,7 +10,7 @@ import useIsTabletViewport from '@hooks/useIsTabletViewport';
  * @returns {ReactElement} - the banner logo component.
  */
 const BannerLogo = (): ReactElement => {
-  const isTablet = useIsTabletViewport();
+  // const isTablet = useIsTabletViewport();
   const navigate = useNavigate();
   const handleClick = () => {
     navigate('..');
@@ -20,10 +20,9 @@ const BannerLogo = (): ReactElement => {
     <Box data-testid="banner-logo">
       <Box
         data-testid="banner-logo-image"
-        className="dark:invert"
         component="img"
-        src={isTablet ? '/images/vonage-logo-mobile.svg' : '/images/vonage-logo-desktop.svg'}
-        alt={isTablet ? 'Vonage-mobile-logo' : 'Vonage-desktop-logo'}
+        src={'/images/trusted-bank-logo.png'}
+        alt={'Trusted Bank-desktop-logo'}
         onClick={handleClick}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {

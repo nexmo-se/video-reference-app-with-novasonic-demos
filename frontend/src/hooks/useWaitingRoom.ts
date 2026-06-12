@@ -88,6 +88,7 @@ const useWaitingRoom = () => {
     openAudioInput,
     openVideoInput,
     openAudioOutput,
+    publisher,
     username,
     setUsername,
     accessStatus,

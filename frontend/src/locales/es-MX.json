@@ -212,9 +212,9 @@
   "goodbye.default.header": "Has salido de la reunión",
   "goodbye.default.message": "¡Gracias por unirte!",
   "landing.welcome.subtitle": "Impulsa tu negocio con videos que transforman la satisfacción del cliente.",
-  "landing.welcome.title.1": "Mejora",
-  "landing.welcome.title.2": "la comunicación",
-  "landing.welcome.title.3": "por video",
+  "landing.welcome.title.1": "Bienvenido a",
+  "landing.welcome.title.2": "la aplicación de reuniones de vídeo de Trusted Bank",
+  "landing.welcome.title.3": "",
   "landing.primary.word": "video",
   "layout.tooltip.isPinningPresent": "No se puede cambiar el diseño mientras alguien esté fijado",
   "layout.tooltip.isScreenSharePresent": "No se puede cambiar el diseño mientras se comparte pantalla",
@@ -305,5 +305,10 @@
   "zoom.current": "Zoom actual",
   "errorPage.title": "Algo salió mal",
   "errorPage.description": "La aplicación no pudo iniciarse. Recarga la página o contacta con soporte si el problema persiste.",
-  "notification.dismiss": "Descartar notificación"
+  "notification.dismiss": "Descartar notificación",
+  "waitingRoom.aiIntake.title": "Mensajes de admisión de IA",
+  "waitingRoom.aiIntake.emptyState": "Los mensajes del asistente de IA aparecerán aquí cuando inicies la sesión previa a la llamada.",
+  "waitingRoom.aiIntake.agentName": "Agente de salud IA",
+  "waitingRoom.aiIntake.startButton": "Hablar con el banquero de IA",
+  "waitingRoom.aiIntake.stopButton": "Finalizar conversación con el banquero de IA"
 }

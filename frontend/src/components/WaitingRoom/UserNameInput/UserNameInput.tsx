@@ -1,5 +1,13 @@
-import React, { Dispatch, MouseEvent, ReactElement, SetStateAction, useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, {
+  Dispatch,
+  MouseEvent,
+  ReactElement,
+  SetStateAction,
+  useState,
+  useRef,
+  useEffect,
+} from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -11,14 +19,22 @@ import { UserType } from '@Context/user';
 import isValidUserName from '@utils/isValidUserName';
 import { setStorageItem, STORAGE_KEYS } from '@utils/storage';
 import Separator from '@components/Separator';
-import { CardProps } from '@mui/material';
+import type { ButtonProps, CardProps } from '@mui/material';
 import { twMerge } from 'tailwind-merge';
 import { isValidRoomName } from '@common/assertions';
+
+type PreCallButton = {
+  label: React.ReactNode;
+  onClick: (event: MouseEvent<HTMLButtonElement>) => void;
+  disabled?: boolean;
+  color?: ButtonProps['color'];
+};
 
 export type UserNameInputProps = Omit<CardProps, 'sx'> & {
   username: string;
   roomName: string;
   setUsername: Dispatch<SetStateAction<string>>;
+  preCallButton?: PreCallButton;
 };
 
 /**
@@ -34,15 +50,25 @@ const UsernameInput = ({
   roomName,
   username,
   setUsername,
+  preCallButton,
   className,
   ...cardProps
 }: UserNameInputProps): ReactElement => {
   const { t } = useTranslation();
   const { setUser } = useUserContext();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const [isUserNameInvalid, setIsUserNameInvalid] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Initialize username from URL parameter if provided
+  useEffect(() => {
+    const usernameParam = searchParams.get('username');
+    if (usernameParam && isValidUserName(usernameParam)) {
+      setUsername(usernameParam);
+    }
+  }, [searchParams, setUsername]);
 
   const onChangeParticipantName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputUserName = e.target.value;
@@ -129,6 +155,19 @@ const UsernameInput = ({
       <Typography className="text-vera-tertiary text-vera-heading-4!" noWrap>
         {roomName}
       </Typography>
+
+      {preCallButton && (
+        <Button
+          onClick={preCallButton.onClick}
+          variant="contained"
+          color={preCallButton.color ?? 'primary'}
+          type="button"
+          fullWidth
+          disabled={preCallButton.disabled}
+        >
+          {preCallButton.label}
+        </Button>
+      )}
 
       <Button onClick={handleJoinClick} variant="contained" color="primary" type="submit" fullWidth>
         {t('button.join')}
