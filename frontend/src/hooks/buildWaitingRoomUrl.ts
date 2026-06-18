@@ -1,10 +1,9 @@
-import type { AgentType, DemoType } from './useRuntimeExperienceConfiguration';
+import type { DemoType } from './useRuntimeExperienceConfiguration';
 
 export type BuildWaitingRoomUrlArgs = {
   origin: string;
   sessionKey: string | null;
   demoType: DemoType;
-  agentType: AgentType;
   username?: string;
 };
 
@@ -12,7 +11,6 @@ const buildWaitingRoomUrl = ({
   origin,
   sessionKey,
   demoType,
-  agentType,
   username,
 }: BuildWaitingRoomUrlArgs): string => {
   const waitingRoomPath = sessionKey ? `/waiting-room/${sessionKey}` : '/waiting-room';
@@ -20,10 +18,6 @@ const buildWaitingRoomUrl = ({
 
   if (demoType !== 'default') {
     searchParams.set('demo', demoType);
-  }
-
-  if (agentType !== 'banker') {
-    searchParams.set('agent', agentType);
   }
 
   if (username && username.trim() !== '') {

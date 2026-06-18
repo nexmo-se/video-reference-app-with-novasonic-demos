@@ -8,14 +8,13 @@ import buildWaitingRoomUrl from './buildWaitingRoomUrl';
  */
 const useRoomShareUrl = (): string => {
   const { sessionKey } = useSessionContext();
-  const { demoType, agentType } = useRuntimeExperienceConfiguration();
+  const { demoType } = useRuntimeExperienceConfiguration();
   const { origin } = window.location;
 
   return buildWaitingRoomUrl({
     origin,
     sessionKey,
     demoType,
-    agentType,
   });
 };
 

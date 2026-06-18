@@ -109,7 +109,7 @@ const WaitingRoom: FC = () => {
 
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-  const { preCallPromptIdentifier, waitingRoomAgentTranslationKeyPrefix } =
+  const { isDemoParameterProvided, preCallPromptIdentifier, waitingRoomAgentTranslationKeyPrefix } =
     useRuntimeExperienceConfiguration();
   const { setUser } = useUserContext();
   const selectedAudioInputDeviceId = mediaDevices$.useDeviceId('audioinput');
@@ -154,6 +154,7 @@ const WaitingRoom: FC = () => {
   const waitingRoomAgentEmptyState = t(`${waitingRoomAgentTranslationKeyPrefix}.emptyState`, {
     defaultValue: t('waitingRoom.aiIntake.emptyState'),
   });
+  const shouldShowPreCallAssistant = isDemoParameterProvided;
 
   useEffect(() => {
     latestUsernameRef.current = username;
@@ -948,47 +949,53 @@ const WaitingRoom: FC = () => {
                     username={username}
                     setUsername={setUsername}
                     roomName={roomName}
-                    preCallButton={{
-                      onClick: handlePrecallToggle,
-                      color: hasPrecallStarted ? 'error' : 'info',
-                      disabled: isPrecallLoading || (!hasPrecallStarted && !publisher),
-                      label: hasPrecallStarted
-                        ? waitingRoomAgentStopButtonLabel
-                        : waitingRoomAgentStartButtonLabel,
-                    }}
+                    preCallButton={
+                      shouldShowPreCallAssistant
+                        ? {
+                            onClick: handlePrecallToggle,
+                            color: hasPrecallStarted ? 'error' : 'info',
+                            disabled: isPrecallLoading || (!hasPrecallStarted && !publisher),
+                            label: hasPrecallStarted
+                              ? waitingRoomAgentStopButtonLabel
+                              : waitingRoomAgentStartButtonLabel,
+                          }
+                        : undefined
+                    }
                   />
 
-                  <Box className="w-full rounded-md border border-vera-border p-3 min-h-32 max-h-52 overflow-y-auto bg-vera-surface">
-                    <Typography className="text-vera-secondary text-vera-heading-4! mb-2">
-                      {waitingRoomAgentTitle}
-                    </Typography>
-
-                    {messages.length === 0 && (
-                      <Typography className="text-vera-tertiary text-vera-heading-4!">
-                        {waitingRoomAgentEmptyState}
+                  {shouldShowPreCallAssistant && (
+                    <Box className="w-full rounded-md border border-vera-border p-3 min-h-32 max-h-52 overflow-y-auto bg-vera-surface">
+                      <Typography className="text-vera-secondary text-vera-heading-4! mb-2">
+                        {waitingRoomAgentTitle}
                       </Typography>
-                    )}
 
-                    {messages.map((message, index) => (
-                      <Box key={`${message.sender}-${index}`} className="mb-2">
-                        <Box className="flex items-baseline gap-2">
-                          <Typography className="text-vera-secondary text-vera-heading-4!">
-                            {message.sender}
-                          </Typography>
-                          <Typography
-                            className="text-vera-tertiary"
-                            style={{ fontSize: '0.65rem' }}
-                          >
-                            {message.timestamp}
+                      {messages.length === 0 && (
+                        <Typography className="text-vera-tertiary text-vera-heading-4!">
+                          {waitingRoomAgentEmptyState}
+                        </Typography>
+                      )}
+
+                      {messages.map((message, index) => (
+                        <Box key={`${message.sender}-${index}`} className="mb-2">
+                          <Box className="flex items-baseline gap-2">
+                            <Typography className="text-vera-secondary text-vera-heading-4!">
+                              {message.sender}
+                            </Typography>
+                            <Typography
+                              className="text-vera-tertiary"
+                              style={{ fontSize: '0.65rem' }}
+                            >
+                              {message.timestamp}
+                            </Typography>
+                          </Box>
+                          <Typography className="text-vera-tertiary text-vera-heading-4!">
+                            {message.text}
                           </Typography>
                         </Box>
-                        <Typography className="text-vera-tertiary text-vera-heading-4!">
-                          {message.text}
-                        </Typography>
-                      </Box>
-                    ))}
-                    <div ref={messagesEndRef} />
-                  </Box>
+                      ))}
+                      <div ref={messagesEndRef} />
+                    </Box>
+                  )}
                 </Box>
               )}
 
