@@ -216,6 +216,8 @@
   "landing.welcome.subtitle": "Nutzen Sie Video, um Ihr Business zu transformieren und die Kundenzufriedenheit zu steigern.",
   "landing.welcome.title.1": "Willkommen bei",
   "landing.welcome.title.2": "der Videokonferenz-App von Trusted Bank",
+  "landing.welcome.titleByDemo.trustedBank": "der Videokonferenz-App von Trusted Bank",
+  "landing.welcome.titleByDemo.healthcare": "der Videokonferenz-App der Promony Health",
   "landing.welcome.title.3": "",
   "landing.primary.word": "Video",
   "layout.tooltip.isPinningPresent": "Layout kann nicht gewechselt werden, während ein Teilnehmer angeheftet ist",
@@ -304,5 +306,15 @@
   "waitingRoom.aiIntake.emptyState": "Nachrichten des KI-Bankers werden hier angezeigt, nachdem Sie den Vorab-Anruf gestartet haben.",
   "waitingRoom.aiIntake.agentName": "KI-Banker",
   "waitingRoom.aiIntake.startButton": "Mit KI-Banker sprechen",
-  "waitingRoom.aiIntake.stopButton": "Gespräch mit KI-Banker beenden"
+  "waitingRoom.aiIntake.stopButton": "Gespräch mit KI-Banker beenden",
+  "waitingRoom.aiAgents.banker.title": "KI-Banker Nachrichten",
+  "waitingRoom.aiAgents.banker.emptyState": "Nachrichten des KI-Bankers werden hier angezeigt, nachdem Sie den Vorab-Anruf gestartet haben.",
+  "waitingRoom.aiAgents.banker.agentName": "KI-Banker",
+  "waitingRoom.aiAgents.banker.startButton": "Mit KI-Banker sprechen",
+  "waitingRoom.aiAgents.banker.stopButton": "Gespräch mit KI-Banker beenden",
+  "waitingRoom.aiAgents.healthcareIntake.title": "KI-Aufnahmeassistent Nachrichten",
+  "waitingRoom.aiAgents.healthcareIntake.emptyState": "Nachrichten des KI-Aufnahmeassistenten werden hier angezeigt, nachdem Sie den Vorab-Anruf gestartet haben.",
+  "waitingRoom.aiAgents.healthcareIntake.agentName": "KI-Aufnahmeassistent",
+  "waitingRoom.aiAgents.healthcareIntake.startButton": "Mit KI-Aufnahmeassistent sprechen",
+  "waitingRoom.aiAgents.healthcareIntake.stopButton": "Gespräch mit KI-Aufnahmeassistent beenden"
 }

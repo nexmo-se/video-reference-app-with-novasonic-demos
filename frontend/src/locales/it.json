@@ -214,6 +214,8 @@
   "landing.welcome.subtitle": "Potenzia la tua attività con video che trasformano la soddisfazione del cliente.",
   "landing.welcome.title.1": "Benvenuto in",
   "landing.welcome.title.2": "l'app di videoconferenze di Trusted Bank",
+  "landing.welcome.titleByDemo.trustedBank": "l'app di videoconferenze di Trusted Bank",
+  "landing.welcome.titleByDemo.healthcare": "l'app di videoconferenze di Promony Health",
   "landing.welcome.title.3": "",
   "landing.primary.word": "video",
   "layout.tooltip.isPinningPresent": "Impossibile cambiare layout mentre un partecipante è fissato",
@@ -310,5 +312,15 @@
   "waitingRoom.aiIntake.emptyState": "I messaggi del banquero IA appariranno qui dopo aver avviato la pre-chiamata.",
   "waitingRoom.aiIntake.agentName": "Banquero IA",
   "waitingRoom.aiIntake.startButton": "Parla con il banquero IA",
-  "waitingRoom.aiIntake.stopButton": "Termina conversazione con il banquero IA"
+  "waitingRoom.aiIntake.stopButton": "Termina conversazione con il banquero IA",
+  "waitingRoom.aiAgents.banker.title": "Messaggi del banquero IA",
+  "waitingRoom.aiAgents.banker.emptyState": "I messaggi del banquero IA appariranno qui dopo aver avviato la pre-chiamata.",
+  "waitingRoom.aiAgents.banker.agentName": "Banquero IA",
+  "waitingRoom.aiAgents.banker.startButton": "Parla con il banquero IA",
+  "waitingRoom.aiAgents.banker.stopButton": "Termina conversazione con il banquero IA",
+  "waitingRoom.aiAgents.healthcareIntake.title": "Messaggi dell'assistente IA di accettazione",
+  "waitingRoom.aiAgents.healthcareIntake.emptyState": "I messaggi dell'assistente IA di accettazione appariranno qui dopo aver avviato la pre-chiamata.",
+  "waitingRoom.aiAgents.healthcareIntake.agentName": "Assistente IA di accettazione",
+  "waitingRoom.aiAgents.healthcareIntake.startButton": "Parla con l'assistente IA di accettazione",
+  "waitingRoom.aiAgents.healthcareIntake.stopButton": "Termina conversazione con l'assistente IA di accettazione"
 }

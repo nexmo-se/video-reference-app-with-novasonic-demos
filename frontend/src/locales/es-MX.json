@@ -214,6 +214,8 @@
   "landing.welcome.subtitle": "Impulsa tu negocio con videos que transforman la satisfacción del cliente.",
   "landing.welcome.title.1": "Bienvenido a",
   "landing.welcome.title.2": "la aplicación de reuniones de vídeo de Trusted Bank",
+  "landing.welcome.titleByDemo.trustedBank": "la aplicación de reuniones de vídeo de Trusted Bank",
+  "landing.welcome.titleByDemo.healthcare": "la aplicación de videollamadas de Promony Health",
   "landing.welcome.title.3": "",
   "landing.primary.word": "video",
   "layout.tooltip.isPinningPresent": "No se puede cambiar el diseño mientras alguien esté fijado",
@@ -310,5 +312,15 @@
   "waitingRoom.aiIntake.emptyState": "Los mensajes del asistente de IA aparecerán aquí cuando inicies la sesión previa a la llamada.",
   "waitingRoom.aiIntake.agentName": "Agente de salud IA",
   "waitingRoom.aiIntake.startButton": "Hablar con el banquero de IA",
-  "waitingRoom.aiIntake.stopButton": "Finalizar conversación con el banquero de IA"
+  "waitingRoom.aiIntake.stopButton": "Finalizar conversación con el banquero de IA",
+  "waitingRoom.aiAgents.banker.title": "Mensajes del banquero de IA",
+  "waitingRoom.aiAgents.banker.emptyState": "Los mensajes del banquero de IA aparecerán aquí cuando inicies la sesión previa a la llamada.",
+  "waitingRoom.aiAgents.banker.agentName": "Banquero de IA",
+  "waitingRoom.aiAgents.banker.startButton": "Hablar con el banquero de IA",
+  "waitingRoom.aiAgents.banker.stopButton": "Finalizar conversación con el banquero de IA",
+  "waitingRoom.aiAgents.healthcareIntake.title": "Mensajes del asistente de admisión IA",
+  "waitingRoom.aiAgents.healthcareIntake.emptyState": "Los mensajes del asistente de admisión IA aparecerán aquí cuando inicies la sesión previa a la llamada.",
+  "waitingRoom.aiAgents.healthcareIntake.agentName": "Asistente de admisión IA",
+  "waitingRoom.aiAgents.healthcareIntake.startButton": "Hablar con el asistente de admisión IA",
+  "waitingRoom.aiAgents.healthcareIntake.stopButton": "Finalizar conversación con el asistente de admisión IA"
 }

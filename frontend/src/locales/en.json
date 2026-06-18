@@ -216,6 +216,8 @@
   "landing.welcome.subtitle": "Power your business with video that transforms customer satisfaction.",
   "landing.welcome.title.1": "Welcome to",
   "landing.welcome.title.2": "Trusted Bank's",
+  "landing.welcome.titleByDemo.trustedBank": "Trusted Bank's",
+  "landing.welcome.titleByDemo.healthcare": "Promony Health's",
   "landing.welcome.title.3": "video meeting app",
   "landing.primary.word": "video",
   "layout.tooltip.isPinningPresent": "Cannot switch layout while a participant is pinned",
@@ -312,5 +314,15 @@
   "waitingRoom.aiIntake.emptyState": "Messages from the AI Banker will appear here after you start pre-call.",
   "waitingRoom.aiIntake.agentName": "AI Banker",
   "waitingRoom.aiIntake.startButton": "Talk to AI Banker",
-  "waitingRoom.aiIntake.stopButton": "Finish conversation with AI Banker"
+  "waitingRoom.aiIntake.stopButton": "Finish conversation with AI Banker",
+  "waitingRoom.aiAgents.banker.title": "AI Banker Messages",
+  "waitingRoom.aiAgents.banker.emptyState": "Messages from the AI Banker will appear here after you start pre-call.",
+  "waitingRoom.aiAgents.banker.agentName": "AI Banker",
+  "waitingRoom.aiAgents.banker.startButton": "Talk to AI Banker",
+  "waitingRoom.aiAgents.banker.stopButton": "Finish conversation with AI Banker",
+  "waitingRoom.aiAgents.healthcareIntake.title": "AI Intake Nurse Messages",
+  "waitingRoom.aiAgents.healthcareIntake.emptyState": "Messages from the AI Intake Nurse will appear here after you start pre-call.",
+  "waitingRoom.aiAgents.healthcareIntake.agentName": "AI Intake Nurse",
+  "waitingRoom.aiAgents.healthcareIntake.startButton": "Talk to AI Intake Nurse",
+  "waitingRoom.aiAgents.healthcareIntake.stopButton": "Finish conversation with AI Intake Nurse"
 }

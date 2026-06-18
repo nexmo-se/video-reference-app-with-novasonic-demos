@@ -23,6 +23,7 @@ import { UserType } from '@Context/user';
 import { isValidRoomName } from '@common/assertions';
 import mediaDevices$ from '@core/stores/devices';
 import { getStorageItem, setStorageItem, STORAGE_KEYS } from '@utils/storage';
+import useRuntimeExperienceConfiguration from '@hooks/useRuntimeExperienceConfiguration';
 
 type PrecallSessionResponse = {
   sessionId?: string;
@@ -108,6 +109,8 @@ const WaitingRoom: FC = () => {
 
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const { preCallPromptIdentifier, waitingRoomAgentTranslationKeyPrefix } =
+    useRuntimeExperienceConfiguration();
   const { setUser } = useUserContext();
   const selectedAudioInputDeviceId = mediaDevices$.useDeviceId('audioinput');
   const selectedVideoInputDeviceId = mediaDevices$.useDeviceId('videoinput');
@@ -132,6 +135,25 @@ const WaitingRoom: FC = () => {
     handleAudioOutputOpen,
     handleClose,
   } = useWaitingRoom();
+
+  const waitingRoomAgentName = t(`${waitingRoomAgentTranslationKeyPrefix}.agentName`, {
+    defaultValue: t('waitingRoom.aiIntake.agentName'),
+  });
+  const waitingRoomAgentStartButtonLabel = t(
+    `${waitingRoomAgentTranslationKeyPrefix}.startButton`,
+    {
+      defaultValue: t('waitingRoom.aiIntake.startButton'),
+    }
+  );
+  const waitingRoomAgentStopButtonLabel = t(`${waitingRoomAgentTranslationKeyPrefix}.stopButton`, {
+    defaultValue: t('waitingRoom.aiIntake.stopButton'),
+  });
+  const waitingRoomAgentTitle = t(`${waitingRoomAgentTranslationKeyPrefix}.title`, {
+    defaultValue: t('waitingRoom.aiIntake.title'),
+  });
+  const waitingRoomAgentEmptyState = t(`${waitingRoomAgentTranslationKeyPrefix}.emptyState`, {
+    defaultValue: t('waitingRoom.aiIntake.emptyState'),
+  });
 
   useEffect(() => {
     latestUsernameRef.current = username;
@@ -540,7 +562,7 @@ const WaitingRoom: FC = () => {
     const isEndOfConversation = isEndOfConversationMessage(message.content);
 
     if (message.role === 'ASSISTANT') {
-      addIncomingMessage(t('waitingRoom.aiIntake.agentName'), message.content);
+      addIncomingMessage(waitingRoomAgentName, message.content);
 
       if (isEndOfConversation && hasPrecallStartedRef.current) {
         setTimeout(() => {
@@ -557,7 +579,7 @@ const WaitingRoom: FC = () => {
 
     // Fallback for payloads without role; assume AI assistant while pre-call session is active.
     if (hasPrecallStartedRef.current || !!activePrecallVonageSession.current) {
-      addIncomingMessage(t('waitingRoom.aiIntake.agentName'), message.content);
+      addIncomingMessage(waitingRoomAgentName, message.content);
 
       if (isEndOfConversation && hasPrecallStartedRef.current) {
         setTimeout(() => {
@@ -606,7 +628,7 @@ const WaitingRoom: FC = () => {
             }, 1000);
           }
 
-          addIncomingMessage(t('waitingRoom.aiIntake.agentName'), content);
+          addIncomingMessage(waitingRoomAgentName, content);
           return;
         }
 
@@ -833,7 +855,7 @@ const WaitingRoom: FC = () => {
         });
 
         // eslint-disable-next-line @cspell/spellchecker
-        const promptId = import.meta.env.VITE_NOVASONIC_ID || '';
+        const promptId = preCallPromptIdentifier;
         const currentLanguage = i18n.language;
         const connectorVoice = getConnectorVoiceFromLanguage(currentLanguage);
 
@@ -931,19 +953,19 @@ const WaitingRoom: FC = () => {
                       color: hasPrecallStarted ? 'error' : 'info',
                       disabled: isPrecallLoading || (!hasPrecallStarted && !publisher),
                       label: hasPrecallStarted
-                        ? t('waitingRoom.aiIntake.stopButton')
-                        : t('waitingRoom.aiIntake.startButton'),
+                        ? waitingRoomAgentStopButtonLabel
+                        : waitingRoomAgentStartButtonLabel,
                     }}
                   />
 
                   <Box className="w-full rounded-md border border-vera-border p-3 min-h-32 max-h-52 overflow-y-auto bg-vera-surface">
                     <Typography className="text-vera-secondary text-vera-heading-4! mb-2">
-                      {t('waitingRoom.aiIntake.title')}
+                      {waitingRoomAgentTitle}
                     </Typography>
 
                     {messages.length === 0 && (
                       <Typography className="text-vera-tertiary text-vera-heading-4!">
-                        {t('waitingRoom.aiIntake.emptyState')}
+                        {waitingRoomAgentEmptyState}
                       </Typography>
                     )}
 

@@ -1,6 +1,7 @@
 import { ReactElement } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
+import useRuntimeExperienceConfiguration from '@hooks/useRuntimeExperienceConfiguration';
 // import useIsTabletViewport from '@hooks/useIsTabletViewport';
 
 /**
@@ -12,6 +13,7 @@ import Box from '@mui/material/Box';
 const BannerLogo = (): ReactElement => {
   // const isTablet = useIsTabletViewport();
   const navigate = useNavigate();
+  const { logoMetadata } = useRuntimeExperienceConfiguration();
   const handleClick = () => {
     navigate('..');
   };
@@ -21,8 +23,8 @@ const BannerLogo = (): ReactElement => {
       <Box
         data-testid="banner-logo-image"
         component="img"
-        src={'/images/trusted-bank-logo.png'}
-        alt={'Trusted Bank-desktop-logo'}
+        src={logoMetadata.path}
+        alt={logoMetadata.alt}
         onClick={handleClick}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {

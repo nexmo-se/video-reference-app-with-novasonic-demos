@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import useRuntimeExperienceConfiguration from '@hooks/useRuntimeExperienceConfiguration';
 
 /**
  * LandingPageWelcome Component
@@ -11,10 +12,11 @@ import Typography from '@mui/material/Typography';
  */
 const LandingPageWelcome = (): ReactElement => {
   const { t } = useTranslation();
+  const { landingWelcomeTitleSecondLineTranslationKey } = useRuntimeExperienceConfiguration();
   const primaryWord = t('landing.primary.word');
 
-  const renderTitle = (titleKey: string) => {
-    const text = t(titleKey);
+  const renderTitle = ({ titleKey, defaultValue }: { titleKey: string; defaultValue?: string }) => {
+    const text = defaultValue ? t(titleKey, { defaultValue }) : t(titleKey);
     const isPrimaryWord = text.toLowerCase().includes(primaryWord.toLowerCase());
 
     return (
@@ -54,9 +56,12 @@ const LandingPageWelcome = (): ReactElement => {
         }}
       >
         <>
-          {renderTitle('landing.welcome.title.1')}
-          {renderTitle('landing.welcome.title.2')}
-          {renderTitle('landing.welcome.title.3')}
+          {renderTitle({ titleKey: 'landing.welcome.title.1' })}
+          {renderTitle({
+            titleKey: landingWelcomeTitleSecondLineTranslationKey,
+            defaultValue: t('landing.welcome.title.2'),
+          })}
+          {renderTitle({ titleKey: 'landing.welcome.title.3' })}
         </>
       </Box>
 
