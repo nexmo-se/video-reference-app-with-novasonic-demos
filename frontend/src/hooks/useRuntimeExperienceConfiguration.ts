@@ -48,7 +48,7 @@ const waitingRoomAgentTranslationKeyPrefixByAgentType: Record<AgentType, string>
 
 const promptIdentifierByAgentType = (() => {
   // eslint-disable-next-line @cspell/spellchecker
-  const defaultPromptIdentifier = import.meta.env.VITE_NOVASONIC_ID || '';
+  const defaultPromptIdentifier = import.meta.env.VITE_BANKING_NOVASONIC_ID;
   const environmentVariables = import.meta.env as Record<string, string | undefined>;
 
   return {
